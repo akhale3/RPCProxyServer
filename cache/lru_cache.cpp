@@ -20,9 +20,9 @@ class LRUCache
 private:
 	hash_map< K, LRUCacheEntry<K,T>* >	_mapping;
 	vector< LRUCacheEntry<K,T>* >		_freeEntries;
-	LRUCacheEntry<K,T> *				head;
-	LRUCacheEntry<K,T> *				tail;
-	LRUCacheEntry<K,T> *				entries;
+	LRUCacheEntry<K,T> *			head;
+	LRUCacheEntry<K,T> *			tail;
+	LRUCacheEntry<K,T> *			entries;
 public:
 	LRUCache(size_t size){
 		entries = new LRUCacheEntry<K,T>[size];
