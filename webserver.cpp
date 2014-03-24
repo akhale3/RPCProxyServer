@@ -10,6 +10,7 @@ extern "C" {
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <string.h>
+#include "lrucache.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -44,6 +45,19 @@ int main(int argc, char **argv) {
 
   TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
   server.serve();
+  hash_map<int, int> map;
+
+  map[9]= 999;
+  cout << map[9] << endl;
+  cout << map[10] << endl;
+  LRUCache<int, string> lru_cache(100);
+  lru_cache.Put(1, "one");
+  cout << lru_cache.Get(1) << endl;
+
+  if(lru_cache.Get(2) == "")
+    lru_cache.Put(2, "two");
+  cout << lru_cache.Get(2);
+
   return 0;
 }
 
