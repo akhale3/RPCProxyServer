@@ -29,8 +29,34 @@ class serverHandler : virtual public serverIf {
 
   void getHtml(std::string& _return) {
     // Your implementation goes here
-    std::string body(getWebPage());
-    _return.assign(body);
+    //hash_map<string, string> map;
+    //map[9]= 999;
+    //cout << map[9] << "\n";
+    //cout << map[10] << "\n";
+    LRUCache<char *, char *> lru_cache(10);
+    //lru_cache.Put("http://localhost/", "test");
+    // lru_cache.Put(1, "one");
+    // cout << lru_cache.Get(1) << endl;
+
+    // if(lru_cache.Get(2) == "")
+    //   lru_cache.Put(2, "two");
+    cout << "Before" << "\n";
+    if(!lru_cache.Get("http://localhost/"))
+    {
+      cout << "Entry not in cache" << "\n";
+      char * webPage = getWebPage();
+      std::string body(webPage);
+      lru_cache.Put("http://localhost/", webPage);
+      _return.assign(body);
+    }
+    else
+    {
+      cout << "Entry in cache" << "\n";
+      std::string body(lru_cache.Get("http://localhost/"));
+      _return.assign(body);
+    }
+    //cout << "Test LRU: " << lru_cache.Get("http://localhost/") << "\n";
+    //cout << "After" << "\n";
   }
 
 };
@@ -45,18 +71,6 @@ int main(int argc, char **argv) {
 
   TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
   server.serve();
-  hash_map<int, int> map;
-
-  map[9]= 999;
-  cout << map[9] << endl;
-  cout << map[10] << endl;
-  LRUCache<int, string> lru_cache(100);
-  lru_cache.Put(1, "one");
-  cout << lru_cache.Get(1) << endl;
-
-  if(lru_cache.Get(2) == "")
-    lru_cache.Put(2, "two");
-  cout << lru_cache.Get(2);
 
   return 0;
 }

@@ -1,4 +1,4 @@
-#ifndef __lrucahce_H
+#ifndef __lrucache_H
 #define __lrucache_H
 #include <iostream>
 #include <vector>
@@ -66,6 +66,8 @@ class LRUCache {
        			 		}
         			node->key = key; //put into hashmap and insert into link
         			node->data = data;
+              //cout << node->key << "\n";
+              //cout << node->data << "\n";
         			_hashmap[key] = node;
         			attach(node);
       				}
@@ -73,16 +75,19 @@ class LRUCache {
 
 		 T Get(K key) 
 			{
-      				LRUCacheEntry<K,T> *node = _hashmap[key];
+      				//cout << "Get" << "\n";
+              LRUCacheEntry<K,T> *node = _hashmap[key];
+              //cout << key << "\n";
       				if(node)
 		 		{ // hit
         				detach(node);
         				attach(node);
+                //cout << "Hit" << "\n";
         				return node->data;
       				}
       				else
 				{ // fail to hit
-        				return T();
+        				return NULL;
       				}
 
 			}

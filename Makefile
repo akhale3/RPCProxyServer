@@ -1,4 +1,4 @@
-GEN_SRC := server.cpp webserver_constants.cpp webserver_types.cpp
+GEN_SRC := server.cpp webserver_constants.cpp webserver_types.cpp lrucache.cpp
 GEN_OBJ := $(patsubst %.cpp,%.o, $(GEN_SRC))
 CURL_SRC := webcurl.c
 CURL_OBJ := $(patsubst %.c,%.o, $(CURL_SRC))
