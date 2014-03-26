@@ -69,6 +69,7 @@ class LRUCache {
               //cout << node->key << "\n";
               //cout << node->data << "\n";
         			_hashmap[key] = node;
+              //cout << _hashmap[key] << "\n";
         			attach(node);
       				}
     			}	
@@ -77,7 +78,7 @@ class LRUCache {
 			{
       				//cout << "Get" << "\n";
               LRUCacheEntry<K,T> *node = _hashmap[key];
-              //cout << key << "\n";
+              //cout << _hashmap[key] << "\n";
       				if(node)
 		 		{ // hit
         				detach(node);
@@ -87,7 +88,8 @@ class LRUCache {
       				}
       				else
 				{ // fail to hit
-        				return NULL;
+                //cout << T() << "\n";
+        				return T();
       				}
 
 			}

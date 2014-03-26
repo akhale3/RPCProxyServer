@@ -1,0 +1,120 @@
+% [CS 6210] Project 3 Writeup
+% Authors: Anish Khale, Nikita Gupta
+
+\documentclass[11pt,pdftex,twocolumn]{article}
+
+\usepackage{epsf}
+\usepackage{epsfig}
+\usepackage{url}
+\usepackage{ifthen}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{abstract}
+\usepackage{lipsum}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+\lhead{\bfseries CS 6210 : Spring 2014}
+\chead{\bfseries Project 3}
+\rhead{\bfseries March 27, 2014}
+\renewcommand{\abstractnamefont}{\normalfont\normalsize\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\small}
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\title{RPC Based Proxy Server}
+\author{
+Anish Khale\\
+\url{anish_khale@gatech.edu}
+\and
+Nikita Gupta\\
+\url{ngupta71@gatech.edu}
+}
+\date{}
+
+\begin{document}
+\maketitle
+\fancyfoot{}
+\fancyfoot[C]{\thepage}
+\thispagestyle{fancy}
+
+\begin{abstract}
+Parallel computing involves a high degree of multithreading to accomplish tasks in the least possible execution time. This gives rise to the necessity of synchronizing the different threads spawned by a process to ensure correctness of data at any specified point in time. This project deals with a synchronization mechanism known as barrier, which requires all threads or processes participating in the barrier synchronization to await at a barrier until all the other participants arrive.
+\end{abstract}
+
+\section{Introduction}
+% Describe an overview of the project.
+In this project, we implement the spin barrier synchronization concepts with Open Multi-Processing (OpenMP) and Message Passing Interface (MPI).
+
+OpenMP is an API that facilitates execution of parallel algorithms on shared multiprocessor and multicore machines. It has the ability to influence runtime behavior with its pre-programmed environment variables, and includes a host of library routines and compiler directives.
+
+MPI, being a language independent communications protocol, facilitates execution of parallel algorithms on distributed memory systems, such as compute clusters, through message passing.
+
+For the barrier synchronization project, we select two spin barrier algorithms each for OpenMP and MPI, as discussed in section~\ref{algos}, and combine one barrier implementation from each to form an MPI-OpenMP combined program to synchronize between multiple cluster nodes that are each running multiple threads. Further, we evaluate the performance of the chosen barrier implementations on compute clusters for multiple core-thread/processor-process configurations, as explained in section~\ref{methods}, and document their results and analyses graphically in section~\ref{results}.
+
+\section{Task Division}
+% Who did what.
+The tasks associated with this project can be broadly classified into three main categories: Code, Test and Documentation. The breakdown of tasks along with the team members they were assigned to respectively are shown in table~\ref{tab:taskDiv}.
+% Table for section 2
+\begin{table*}[t]
+\centering
+\begin{tabular}{| c | p{3.5in} | c | c |}
+\hline
+Category & Task & Anish K. & Nikita G.\\
+\hline\hline
+& OpenMP: Sense reversing centralized barrier & 0\% & 100\%\\
+\cline{2-4}
+& OpenMP: Software combining tree barrier with optimized wakeup & 100\% & 0\%\\
+\cline{2-4}
+Code & MPI: Sense reversing centralized barrier & 100\% & 0\%\\
+\cline{2-4}
+& MPI: Tournament barrier & 100\% & 0\%\\
+\cline{2-4}
+& MPI-OpenMP: Tournament-Sense reversing centralized barrier & 50\% & 50\%\\
+\hline
+& OpenMP & 75\% & 25\%\\
+\cline{2-4}
+Test & MPI & 50\% & 50\%\\
+\cline{2-4}
+& MPI-OpenMP & 100\% & 0\%\\
+\hline
+Documentation & Writeup & 50\% & 50\%\\
+\hline
+\end{tabular}
+\caption{Task Division for Project 3}
+\label{tab:taskDiv}
+\end{table*}
+
+\section{Cache Design}
+\lipsum
+
+\section{Caching Policies}
+\subsection{Random}
+\lipsum
+
+\subsection{First In First Out (FIFO)}
+\lipsum
+
+\subsection{Least Recently Used (LRU)}
+\lipsum
+
+\section{Performance Evaluation Metrics}
+\lipsum
+
+\section{Performance Evaluation Workloads}
+\lipsum
+
+\section{Experimental Setup and Methodology}
+\lipsum
+
+\section{Results}
+\lipsum
+
+\section{Analysis of Results}
+\lipsum
+
+\section{Conclusion}
+As expected the experiment showed the same results. OMP barriers are faster than MPI barriers. Tournament barrier has the least execution time, it reduces contention and spinning of processes is pre determined unlike rest barriers. Tree barrier reduces contention but still can suffer from contention if the value of K is large. Sense Reversal barrier faces lots of contention as spinning is on same memory location for same shared variable.
+\end{document}

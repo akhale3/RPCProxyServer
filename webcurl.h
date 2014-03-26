@@ -9,7 +9,7 @@ extern "C" {
 	  char *data;
 	};
 
-	char * getWebPage();
+	char * getWebPage(char * url);
 #ifdef __cplusplus
 }
 #endif

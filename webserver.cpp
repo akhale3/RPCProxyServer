@@ -40,19 +40,20 @@ class serverHandler : virtual public serverIf {
 
     // if(lru_cache.Get(2) == "")
     //   lru_cache.Put(2, "two");
-    cout << "Before" << "\n";
-    if(!lru_cache.Get("http://localhost/"))
+    //cout << "Before" << "\n";
+    char * url = "http://localhost/";
+    if(!lru_cache.Get(url))
     {
       cout << "Entry not in cache" << "\n";
-      char * webPage = getWebPage();
+      char * webPage = getWebPage(url);
       std::string body(webPage);
-      lru_cache.Put("http://localhost/", webPage);
+      lru_cache.Put(url, webPage);
       _return.assign(body);
     }
     else
     {
       cout << "Entry in cache" << "\n";
-      std::string body(lru_cache.Get("http://localhost/"));
+      std::string body(lru_cache.Get(url));
       _return.assign(body);
     }
     //cout << "Test LRU: " << lru_cache.Get("http://localhost/") << "\n";

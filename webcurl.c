@@ -25,13 +25,13 @@ static size_t write_data(void *buffer, size_t size,
   return size * nmemb;
 }
 
-char * getWebPage() {
+char * getWebPage(char * url) {
   CURL *curl;
   CURLcode res;
   struct wd_in wdi;
   char * data;
 
-  char * url = "http://localhost/";
+  //char * url = "http://localhost/";
 
   memset(&wdi, 0, sizeof(wdi));
 
