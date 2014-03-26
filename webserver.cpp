@@ -2,6 +2,7 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "server.h"
+//#include "numberoflines.h"
 extern "C" {
   #include "webcurl.h"
 }
@@ -11,7 +12,7 @@ extern "C" {
 #include <thrift/transport/TBufferTransports.h>
 #include <string.h>
 #include "lrucache.h"
-
+#include <fstream>
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
@@ -33,7 +34,8 @@ class serverHandler : virtual public serverIf {
     //map[9]= 999;
     //cout << map[9] << "\n";
     //cout << map[10] << "\n";
-    LRUCache<char *, char *> lru_cache(10);
+  //  int size= get_numberoflines();
+    Cache<char *, char *> lru_cache(10);
     //lru_cache.Put("http://localhost/", "test");
     // lru_cache.Put(1, "one");
     // cout << lru_cache.Get(1) << endl;
@@ -41,23 +43,29 @@ class serverHandler : virtual public serverIf {
     // if(lru_cache.Get(2) == "")
     //   lru_cache.Put(2, "two");
     //cout << "Before" << "\n";
+    
     char * url = "http://localhost/";
-    if(!lru_cache.Get(url))
+    std::string line;
+    std::ifstream myfile("urllist.txt");
+//    while(std::getline(myfile,line))
+//{
+//    char *url = line; 
+    if(!lru_cache.search_cache(url))
     {
       cout << "Entry not in cache" << "\n";
       char * webPage = getWebPage(url);
       std::string body(webPage);
-      lru_cache.Put(url, webPage);
+      lru_cache.insert_into_cache(url, webPage);
       _return.assign(body);
     }
     else
     {
       cout << "Entry in cache" << "\n";
-      std::string body(lru_cache.Get(url));
+      std::string body(lru_cache.search_cache(url));
       _return.assign(body);
     }
     //cout << "Test LRU: " << lru_cache.Get("http://localhost/") << "\n";
-    //cout << "After" << "\n";
+//}    //cout << "After" << "\n";
   }
 
 };

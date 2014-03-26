@@ -14,7 +14,7 @@ using namespace serverns;
 int main(int argc, char ** argv)
 {
 	std::string body;
-	boost::shared_ptr<TSocket> socket(new TSocket("localhost", 9090));
+	boost::shared_ptr<TSocket> socket(new TSocket("10.0.0.23", 9090));
 	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
 	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 

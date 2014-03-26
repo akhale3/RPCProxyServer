@@ -1,5 +1,5 @@
-#ifndef __lrucache_H
-#define __lrucache_H
+#ifndef __fifocache_H
+#define __fifocache_H
 #include <iostream>
 #include <vector>
 #include <ext/hash_map>
@@ -8,47 +8,49 @@ using namespace std;
 using namespace __gnu_cxx;
 
 template <class K, class D>
-struct LRUnode 
+struct FIFOnode 
 {
   K key;
   D data;
-  LRUnode *prev, *next;
+  FIFOnode *prev, *next;
 };
 
 template <class K, class D>
 class Cache {
 
 	private:
-                hash_map<K, LRUnode<K,D>* > cache_enteries;
-                vector< LRUnode<K,D>* > free_entries;
-                LRUnode<K,D> *head, *tail;
-                LRUnode<K,D> *no_of_entries;
+                hash_map<K, FIFOnode<K,D>* > cache_enteries;
+                vector< FIFOnode<K,D>* > free_entries;
+                FIFOnode<K,D> *head, *tail;
+                FIFOnode<K,D> *no_of_entries;
 
-                void deletenode(LRUnode<K,D>* node)
+                // delete node from head
+                void deletenode()
                 {
-                        node->prev->next = node->next;
-                        node->next->prev = node->prev;
+                  	head->next = head->next->next;
+        		head->next->next->prev = head;
                 }
-                 // insert the node into head
-                void addnode(LRUnode<K,D>* node)
+                 // insert the node at tail
+                void addnode(FIFOnode<K,D>* node)
                 {
-                        node->prev = head;
-                        node->next = head->next;
-                        head->next = node;
-                        node->next->prev = node;
+			node->prev = tail->prev;
+		        node->next = tail;
+        		node->prev->next = node;
+        		node->next->prev = node;
+                      
                 }
 
 	public:
     		Cache(size_t size) 
 		{
-      			no_of_entries = new LRUnode<K,D>[size];
+      			no_of_entries = new FIFOnode<K,D>[size];
 
       			for(int i=0; i<size; ++i) 
 				{
         				free_entries.push_back(no_of_entries+i);
       				}
-      			head = new LRUnode<K,D>;
-      			tail = new LRUnode<K,D>;
+      			head = new FIFOnode<K,D>;
+      			tail = new FIFOnode<K,D>;
       			head->prev = NULL;
       			head->next = tail;
       			tail->prev = head;
@@ -64,19 +66,19 @@ class Cache {
 
 		void insert_into_cache(K key, D data) 
 			{
-      				LRUnode<K,D> *node = cache_enteries[key];
+      				FIFOnode<K,D> *node = cache_enteries[key];
       				if(node) 
 				{ // node exists
-        				deletenode(node);
+        				//detach(node);
         				node->data = data;
-        				addnode(node);
+        				//attach(node);
       				}	 
 				else 
 				{
         				if(free_entries.empty()) 
 					{// cache is full
-          					node = tail->prev;
-          					deletenode(node);
+          				//	node = tail->prev;
+          					deletenode();
           					cache_enteries.erase(node->key);
         				} 
 					else 	
@@ -86,10 +88,10 @@ class Cache {
        			 		}
         			node->key = key; //put into hashmap and insert into link
         			node->data = data;
-              //cout << node->key << "\n";
-              //cout << node->data << "\n";
+              			//cout << node->key << "\n";
+              			//cout << node->data << "\n";
         			cache_enteries[key] = node;
-              //cout << _hashmap[key] << "\n";
+              			//cout << _hashmap[key] << "\n";
         			addnode(node);
       				}
     			}	
@@ -97,18 +99,18 @@ class Cache {
 		 D search_cache(K key) 
 			{
       				//cout << "Get" << "\n";
-              LRUnode<K,D> *node = cache_enteries[key];
-              //cout << _hashmap[key] << "\n";
+             			FIFOnode<K,D> *node = cache_enteries[key];
+              			//cout << _hashmap[key] << "\n";
       				if(node)
 		 		{ // hit
-        				deletenode(node);
-        				addnode(node);
-                //cout << "Hit" << "\n";
+        				//detach(node);
+        				//attach(node);
+                			//cout << "Hit" << "\n";
         				return node->data;
       				}
       				else
 				{ // fail to hit
-                //cout << T() << "\n";
+                		  //cout << T() << "\n";
         				return D();
       				}
 
