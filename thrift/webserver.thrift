@@ -4,5 +4,5 @@ namespace cpp serverns
 
 service server
 {
-	string getHtml()
+	string getHtml(1: string url)
 }

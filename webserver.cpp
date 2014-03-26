@@ -3,7 +3,8 @@
 
 #include "server.h"
 //#include "numberoflines.h"
-extern "C" {
+extern "C"
+{
   #include "webcurl.h"
 }
 #include <thrift/protocol/TBinaryProtocol.h>
@@ -12,7 +13,8 @@ extern "C" {
 #include <thrift/transport/TBufferTransports.h>
 #include <string.h>
 #include "lrucache.h"
-#include <fstream>
+//#include <fstream>
+
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
@@ -22,55 +24,49 @@ using boost::shared_ptr;
 
 using namespace  ::serverns;
 
-class serverHandler : virtual public serverIf {
+class serverHandler : virtual public serverIf
+{
  public:
-  serverHandler() {
+  serverHandler()
+  {
     // Your initialization goes here
   }
 
-  void getHtml(std::string& _return) {
+  void getHtml(std::string& _return, const std::string& url)
+  {
     // Your implementation goes here
-    //hash_map<string, string> map;
-    //map[9]= 999;
-    //cout << map[9] << "\n";
-    //cout << map[10] << "\n";
-  //  int size= get_numberoflines();
     Cache<char *, char *> lru_cache(10);
-    //lru_cache.Put("http://localhost/", "test");
-    // lru_cache.Put(1, "one");
-    // cout << lru_cache.Get(1) << endl;
+    // std::string line;
+    // std::ifstream myFile("urllist.txt");
 
-    // if(lru_cache.Get(2) == "")
-    //   lru_cache.Put(2, "two");
-    //cout << "Before" << "\n";
-    
-    char * url = "http://localhost/";
-    std::string line;
-    std::ifstream myfile("urllist.txt");
-//    while(std::getline(myfile,line))
-//{
-//    char *url = line; 
-    if(!lru_cache.search_cache(url))
-    {
-      cout << "Entry not in cache" << "\n";
-      char * webPage = getWebPage(url);
-      std::string body(webPage);
-      lru_cache.insert_into_cache(url, webPage);
-      _return.assign(body);
-    }
-    else
-    {
-      cout << "Entry in cache" << "\n";
-      std::string body(lru_cache.search_cache(url));
-      _return.assign(body);
-    }
-    //cout << "Test LRU: " << lru_cache.Get("http://localhost/") << "\n";
-//}    //cout << "After" << "\n";
+    // if(myFile.is_open)
+
+    // while(std::getline(myFile, line))
+    // {
+      // cout << "In while" << "\n";
+      // char *url = (char *)line.c_str();
+      char * tempUrl = (char *)url.c_str();
+
+      if(!lru_cache.search_cache(tempUrl))
+      {
+        cout << "Entry not in cache" << "\n";
+        char * webPage = getWebPage(tempUrl);
+        std::string body(webPage);
+        lru_cache.insert_into_cache(tempUrl, webPage);
+        _return.assign(body);
+      }
+      else
+      {
+        cout << "Entry in cache" << "\n";
+        std::string body(lru_cache.search_cache(tempUrl));
+        _return.assign(body);
+      }
+    // }
   }
-
 };
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   int port = 9090;
   shared_ptr<serverHandler> handler(new serverHandler());
   shared_ptr<TProcessor> processor(new serverProcessor(handler));

@@ -19,7 +19,7 @@ template <class K, class D>
 class Cache {
 
 	private:
-                hash_map<K, LRUnode<K,D>* > cache_enteries;
+                hash_map<K, LRUnode<K,D>* > cache_entries;
                 vector< LRUnode<K,D>* > free_entries;
                 LRUnode<K,D> *head, *tail;
                 LRUnode<K,D> *no_of_entries;
@@ -64,7 +64,7 @@ class Cache {
 
 		void insert_into_cache(K key, D data) 
 			{
-      				LRUnode<K,D> *node = cache_enteries[key];
+      				LRUnode<K,D> *node = cache_entries[key];
       				if(node) 
 				{ // node exists
         				deletenode(node);
@@ -77,7 +77,7 @@ class Cache {
 					{// cache is full
           					node = tail->prev;
           					deletenode(node);
-          					cache_enteries.erase(node->key);
+          					cache_entries.erase(node->key);
         				} 
 					else 	
 					{ //get a free node from _free_entries
@@ -88,7 +88,7 @@ class Cache {
         			node->data = data;
               //cout << node->key << "\n";
               //cout << node->data << "\n";
-        			cache_enteries[key] = node;
+        			cache_entries[key] = node;
               //cout << _hashmap[key] << "\n";
         			addnode(node);
       				}
@@ -97,7 +97,7 @@ class Cache {
 		 D search_cache(K key) 
 			{
       				//cout << "Get" << "\n";
-              LRUnode<K,D> *node = cache_enteries[key];
+              LRUnode<K,D> *node = cache_entries[key];
               //cout << _hashmap[key] << "\n";
       				if(node)
 		 		{ // hit

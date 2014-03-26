@@ -22,7 +22,7 @@ class serverHandler : virtual public serverIf {
     // Your initialization goes here
   }
 
-  void getHtml(std::string& _return) {
+  void getHtml(std::string& _return, const std::string& url) {
     // Your implementation goes here
     printf("getHtml\n");
   }

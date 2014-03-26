@@ -1,4 +1,5 @@
-fbd,dc
-ckdnc
-nkcnd
-nklcdn
+http://localhost/
+https://www.facebook.com/
+http://www.google.com/
+http://anishkhale.x10.mx/
+http://nikitagupta.co.nf/

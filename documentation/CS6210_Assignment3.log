@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.1.8)  25 MAR 2014 19:26
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.1.8)  26 MAR 2014 16:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -282,12 +282,12 @@ Underfull \vbox (badness 3579) has occurred while \output is active []
 
  [2]
 [3] [4] [5]
-Underfull \hbox (badness 10000) in paragraph at lines 103--103
+Underfull \hbox (badness 10000) in paragraph at lines 105--105
 []\OT1/cmr/bx/n/14.4 Performance Eval-u-a-tion
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 106--106
+Underfull \hbox (badness 10000) in paragraph at lines 109--109
 []\OT1/cmr/bx/n/14.4 Performance Eval-u-a-tion
  []
 
@@ -298,7 +298,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 2941) has occurred while \output is active []
 
  [7]
-Underfull \hbox (badness 10000) in paragraph at lines 109--109
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
 []\OT1/cmr/bx/n/14.4 Experimental Setup and
  []
 
@@ -306,12 +306,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 109--109
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 2614 strings out of 495059
- 36466 string characters out of 3182031
+ 2621 strings out of 495059
+ 36564 string characters out of 3182031
  196346 words of memory out of 3000000
- 5764 multiletter control sequences out of 15000+200000
+ 5771 multiletter control sequences out of 15000+200000
  8980 words of font info for 32 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  38i,10n,43p,629b,359s stack positions out of 5000i,500n,10000p,200000b,50000s

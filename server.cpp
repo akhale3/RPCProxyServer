@@ -26,7 +26,20 @@ uint32_t server_getHtml_args::read(::apache::thrift::protocol::TProtocol* iprot)
     if (ftype == ::apache::thrift::protocol::T_STOP) {
       break;
     }
-    xfer += iprot->skip(ftype);
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->url);
+          this->__isset.url = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
     xfer += iprot->readFieldEnd();
   }
 
@@ -39,6 +52,10 @@ uint32_t server_getHtml_args::write(::apache::thrift::protocol::TProtocol* oprot
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("server_getHtml_args");
 
+  xfer += oprot->writeFieldBegin("url", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->url);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -47,6 +64,10 @@ uint32_t server_getHtml_args::write(::apache::thrift::protocol::TProtocol* oprot
 uint32_t server_getHtml_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("server_getHtml_pargs");
+
+  xfer += oprot->writeFieldBegin("url", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->url)));
+  xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -149,18 +170,19 @@ uint32_t server_getHtml_presult::read(::apache::thrift::protocol::TProtocol* ipr
   return xfer;
 }
 
-void serverClient::getHtml(std::string& _return)
+void serverClient::getHtml(std::string& _return, const std::string& url)
 {
-  send_getHtml();
+  send_getHtml(url);
   recv_getHtml(_return);
 }
 
-void serverClient::send_getHtml()
+void serverClient::send_getHtml(const std::string& url)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("getHtml", ::apache::thrift::protocol::T_CALL, cseqid);
 
   server_getHtml_pargs args;
+  args.url = &url;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -248,7 +270,7 @@ void serverProcessor::process_getHtml(int32_t seqid, ::apache::thrift::protocol:
 
   server_getHtml_result result;
   try {
-    iface_->getHtml(result.success);
+    iface_->getHtml(result.success, args.url);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {

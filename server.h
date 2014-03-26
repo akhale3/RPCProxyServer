@@ -15,7 +15,7 @@ namespace serverns {
 class serverIf {
  public:
   virtual ~serverIf() {}
-  virtual void getHtml(std::string& _return) = 0;
+  virtual void getHtml(std::string& _return, const std::string& url) = 0;
 };
 
 class serverIfFactory {
@@ -45,23 +45,36 @@ class serverIfSingletonFactory : virtual public serverIfFactory {
 class serverNull : virtual public serverIf {
  public:
   virtual ~serverNull() {}
-  void getHtml(std::string& /* _return */) {
+  void getHtml(std::string& /* _return */, const std::string& /* url */) {
     return;
   }
 };
 
+typedef struct _server_getHtml_args__isset {
+  _server_getHtml_args__isset() : url(false) {}
+  bool url;
+} _server_getHtml_args__isset;
 
 class server_getHtml_args {
  public:
 
-  server_getHtml_args() {
+  server_getHtml_args() : url() {
   }
 
   virtual ~server_getHtml_args() throw() {}
 
+  std::string url;
 
-  bool operator == (const server_getHtml_args & /* rhs */) const
+  _server_getHtml_args__isset __isset;
+
+  void __set_url(const std::string& val) {
+    url = val;
+  }
+
+  bool operator == (const server_getHtml_args & rhs) const
   {
+    if (!(url == rhs.url))
+      return false;
     return true;
   }
   bool operator != (const server_getHtml_args &rhs) const {
@@ -82,6 +95,7 @@ class server_getHtml_pargs {
 
   virtual ~server_getHtml_pargs() throw() {}
 
+  const std::string* url;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -164,8 +178,8 @@ class serverClient : virtual public serverIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void getHtml(std::string& _return);
-  void send_getHtml();
+  void getHtml(std::string& _return, const std::string& url);
+  void send_getHtml(const std::string& url);
   void recv_getHtml(std::string& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
@@ -215,13 +229,13 @@ class serverMultiface : virtual public serverIf {
     ifaces_.push_back(iface);
   }
  public:
-  void getHtml(std::string& _return) {
+  void getHtml(std::string& _return, const std::string& url) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->getHtml(_return);
+      ifaces_[i]->getHtml(_return, url);
     }
-    ifaces_[i]->getHtml(_return);
+    ifaces_[i]->getHtml(_return, url);
     return;
   }
 
