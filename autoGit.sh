@@ -14,7 +14,7 @@ read -p "Please enter a commit message: " msg
 echo ""
 echo "Committing."
 echo ""
-git commit -m $msg
+git commit -m "$msg"
 echo ""
 echo "Pushing code to github"
 echo ""
