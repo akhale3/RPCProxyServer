@@ -2,7 +2,6 @@
 // You should copy it to another filename to avoid overwriting it.
 
 #include "server.h"
-//#include "numberoflines.h"
 extern "C"
 {
   #include "webcurl.h"
@@ -12,8 +11,9 @@ extern "C"
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <string.h>
-#include "lrucache.h"
-//#include <fstream>
+// #include "lrucache.h"
+#include "fifocache.h"
+// #include "randomcache.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -26,57 +26,48 @@ using namespace  ::serverns;
 
 class serverHandler : virtual public serverIf
 {
- public:
-  serverHandler()
-  {
+public:
+	serverHandler()
+	{
     // Your initialization goes here
-  }
+	}
 
-  void getHtml(std::string& _return, const std::string& url)
-  {
+	void getHtml(std::string& _return, const std::string& url)
+	{
     // Your implementation goes here
-    Cache<char *, char *> lru_cache(10);
-    // std::string line;
-    // std::ifstream myFile("urllist.txt");
+		Cache<char *, char *> cache(10);
 
-    // if(myFile.is_open)
+		char * tempUrl = (char *)url.c_str();
 
-    // while(std::getline(myFile, line))
-    // {
-      // cout << "In while" << "\n";
-      // char *url = (char *)line.c_str();
-      char * tempUrl = (char *)url.c_str();
-
-      if(!lru_cache.search_cache(tempUrl))
-      {
-        cout << "Entry not in cache" << "\n";
-        char * webPage = getWebPage(tempUrl);
-        std::string body(webPage);
-        lru_cache.insert_into_cache(tempUrl, webPage);
-        _return.assign(body);
-      }
-      else
-      {
-        cout << "Entry in cache" << "\n";
-        std::string body(lru_cache.search_cache(tempUrl));
-        _return.assign(body);
-      }
-    // }
-  }
+		if(!cache.search_cache(tempUrl))
+		{
+			cout << "Entry not in cache" << "\n";
+			char * webPage = getWebPage(tempUrl);
+			std::string body(webPage);
+			cache.insert_into_cache(tempUrl, webPage);
+			_return.assign(body);
+		}
+		else
+		{
+			cout << "Entry in cache" << "\n";
+			std::string body(cache.search_cache(tempUrl));
+			_return.assign(body);
+		}
+	}
 };
 
 int main(int argc, char **argv)
 {
-  int port = 9090;
-  shared_ptr<serverHandler> handler(new serverHandler());
-  shared_ptr<TProcessor> processor(new serverProcessor(handler));
-  shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+	int port = 9090;
+	shared_ptr<serverHandler> handler(new serverHandler());
+	shared_ptr<TProcessor> processor(new serverProcessor(handler));
+	shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+	shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+	shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
-  TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
-  server.serve();
+	TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+	server.serve();
 
-  return 0;
+	return 0;
 }
 

@@ -39,8 +39,7 @@ int main(int argc, char ** argv)
 	/* Check proper usage */
 	if(argc < 2)
 	{
-		fprintf(stderr, "Usage: ./webclient [urlListFile]");
-		cout << "\n";
+		fprintf(stderr, "Usage: ./webclient [urlListFile]\n");
 		exit(0);
 	}
 
