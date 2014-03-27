@@ -32,7 +32,7 @@ void getUrl(serverClient client, char * urlListFile)
 
 int main(int argc, char ** argv)
 {
-	boost::shared_ptr<TSocket> socket(new TSocket("localhost", 9090));
+	boost::shared_ptr<TSocket> socket(new TSocket("10.0.0.23", 9090));
 	boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
 	boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 
@@ -40,7 +40,7 @@ int main(int argc, char ** argv)
 	if(argc < 2)
 	{
 		fprintf(stderr, "Usage: ./webclient [urlListFile]");
-		cout << "\n";
+		std::cout << "\n";
 		exit(0);
 	}
 
