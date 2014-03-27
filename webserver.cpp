@@ -12,8 +12,8 @@ extern "C"
 #include <thrift/transport/TBufferTransports.h>
 #include <string.h>
 // #include "lrucache.h"
-#include "fifocache.h"
-// #include "randomcache.h"
+// #include "fifocache.h"
+#include "random.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
