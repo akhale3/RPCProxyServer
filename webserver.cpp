@@ -14,11 +14,11 @@ extern "C"
 #include <string.h>
 #include <ctime>
 #include <cstdio>
-#include "lrucache.h"
-// #include "fifocache.h"
+// #include "lrucache.h"
+#include "fifocache.h"
 // #include "random.h"
 
-#define cacheSize 0
+#define cacheSize 2
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;

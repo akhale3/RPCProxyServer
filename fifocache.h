@@ -97,7 +97,7 @@ class Cache {
           					node = free_entries.back();
           					free_entries.pop_back();
        			 		}
-				// isert into hash map and insert the node into linked list
+				// insert into hash map and insert the node into linked list
         			node->key = key; 
         			node->data = data;
         			cache_entries[key] = node;

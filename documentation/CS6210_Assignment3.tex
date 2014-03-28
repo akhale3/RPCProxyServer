@@ -195,13 +195,41 @@ Based on the workload patterns described in section~\ref{sec:perfWork}, we hypot
 \section{Results}
 % Experimental results are presented using graphs that show the chosen metrics vs. the cache size. Results are given for each policy running against each workload. Graphs are presented in a clear an legible manner, with a descriptive title/caption, labeled axes (including unit labels), scales, distinguishable lines (on mult-series graphs), and a legend (on multi-series graphs). (Note: no need to present any raw data; the graphs are sufficient - if you want to include raw data, do so in a separate file, not in the writeup)
 \label{sec:results}
-\lipsum[1]
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{images/workload11.png}
+\caption{Workload 1 Hit Ratio}
+\label{img:w1hr}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.35]{images/workload21.png}
+\caption{Workload 2 Hit Ratio}
+\label{img:w2hr}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{images/workload12.png}
+\caption{Workload 1 Average Memory Access Time}
+\label{img:w1at}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{images/workload22.png}
+\caption{Workload 2 Average Memory Access Time}
+\label{img:w2at}
+\end{figure}
 
 \section{Analysis of Results}
 % All features on the presented graphs are identified and described clearly. An explaination is given for each feature on the graphs.
 \label{sec:analysis}
-\lipsum[1]
+The graphs in section~\ref{sec:results} are organized per workload, i.e. workload 1 and workload 2, and per performance metric. Thus, in total, there are four graphs, viz. Hit ratio for workload 1, Hit ratio for workload 2, Average memory access time for workload 1, and Average memory access time for workload 2. The X-axis depicts the increasing cache sizes, i.e. the number of entries that we store in our defined hashmap. The Y-axis depicts the increasing hit ratio or the increasing average memory access time, depending on the graph. All three caching policies are compared against each other on each graph.
+
+For each caching policy, the extreme values, i.e. 0 and 5, result in almost equivalent performance values. This is due to the fact that 0 implies that the cache is not present and, therefore, the hit ratios will be 0 and the average memory execution time will be higher than when the caches are present. For workload 1, i.e. uniformly random distribution of workload, it can be seen than Random Eviction scheme performs better than the other two, since the probability distribution of hits is even in this case. For workload 2, i.e. statistical distribution of workload, LRU performs significantly better than FIFO and FIFO performs better than Random Eviction. This is because the workload distribution is heavily inclined towards reusing the same URLs consecutively, thereby favoring LRU over FIFO over Random.
 
 \section{Conclusion}
-As expected the experiment showed the same results. OMP barriers are faster than MPI barriers. Tournament barrier has the least execution time, it reduces contention and spinning of processes is pre determined unlike rest barriers. Tree barrier reduces contention but still can suffer from contention if the value of K is large. Sense Reversal barrier faces lots of contention as spinning is on same memory location for same shared variable.
+The above results obtained from the experiments performed confirm our hypothesis stated in section~\ref{sec:exp}. For extreme values of cache sizes, i.e. 0 and maximum unique URL requests, all three caches perform almost equally, while for intermediate values, random eviction performs better for workload 1 than the others and LRU performs better for workload 2 than the other two. Therefore, we can conclude that no cache policy can be the best for every request pattern. Each cache policy has its own unique signature that, when matched with the incoming workload, can produce the best performance results. Overall, caching reduces the average memory access time comparatively to a "no-cache" policy, which is a significant performance boost.
 \end{document}

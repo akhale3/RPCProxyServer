@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.1.8)  27 MAR 2014 19:39
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.1.8)  27 MAR 2014 11:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -384,32 +384,87 @@ Underfull \hbox (badness 10000) in paragraph at lines 186--186
 []\OT1/cmr/bx/n/14.4 Experimental Setup and
  []
 
-[5] [6
+<images/workload11.png, id=30, 804.00375pt x 489.83pt>
+File: images/workload11.png Graphic file (type png)
 
-] (./CS6210_Assignment3.aux) ) 
+<use images/workload11.png>
+Package pdftex.def Info: images/workload11.png used on input line 200.
+(pdftex.def)             Requested size: 241.20299pt x 146.95012pt.
+
+Overfull \hbox (11.32549pt too wide) in paragraph at lines 200--201
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/workload21.png, id=31, 688.5725pt x 436.63126pt>
+File: images/workload21.png Graphic file (type png)
+
+<use images/workload21.png>
+Package pdftex.def Info: images/workload21.png used on input line 207.
+(pdftex.def)             Requested size: 241.00398pt x 152.82323pt.
+
+Overfull \hbox (11.12648pt too wide) in paragraph at lines 207--208
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/workload12.png, id=32, 793.96625pt x 490.83376pt>
+File: images/workload12.png Graphic file (type png)
+
+<use images/workload12.png>
+Package pdftex.def Info: images/workload12.png used on input line 214.
+(pdftex.def)             Requested size: 238.19171pt x 147.25125pt.
+
+Overfull \hbox (8.31421pt too wide) in paragraph at lines 214--215
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/workload22.png, id=33, 773.89125pt x 492.84125pt>
+File: images/workload22.png Graphic file (type png)
+
+<use images/workload22.png>
+Package pdftex.def Info: images/workload22.png used on input line 221.
+(pdftex.def)             Requested size: 232.16916pt x 147.8535pt.
+
+Overfull \hbox (2.29166pt too wide) in paragraph at lines 221--222
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5 <./images/workload11.png> <./images/workload21.png> <./images/workload12.png
+>] [6 <./images/workload22.png>] (./CS6210_Assignment3.aux) ) 
 Here is how much of TeX's memory you used:
- 3253 strings out of 495059
- 43853 string characters out of 3182031
- 210739 words of memory out of 3000000
- 6376 multiletter control sequences out of 15000+200000
+ 3277 strings out of 495059
+ 44361 string characters out of 3182031
+ 210771 words of memory out of 3000000
+ 6396 multiletter control sequences out of 15000+200000
  10046 words of font info for 37 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  38i,10n,43p,1249b,365s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on CS6210_Assignment3.pdf (6 pages, 197908 bytes).
+</usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on CS6210_Assignment3.pdf (6 pages, 375804 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
+ 75 PDF objects out of 1000 (max. 8388607)
  48 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
