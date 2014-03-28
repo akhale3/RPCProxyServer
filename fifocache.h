@@ -19,35 +19,35 @@ template <class K, class D>
 class Cache {
 
 	private:
-                hash_map<K, FIFOnode<K,D>* > cache_enteries;
+                hash_map<K, FIFOnode<K,D>* > cache_entries;
                 vector< FIFOnode<K,D>* > free_entries;
                 FIFOnode<K,D> *head, *tail;
-                FIFOnode<K,D> *no_of_entries;
+                FIFOnode<K,D> *entries;
 
                 // delete node from head
                 void deletenode()
                 {
-                  	head->next = head->next->next;
-        		head->next->next->prev = head;
+                  	head->next = (head->next)->next;
+        		((head->next)->next)->prev = head;
                 }
                  // insert the node at tail
                 void addnode(FIFOnode<K,D>* node)
                 {
 			node->prev = tail->prev;
 		        node->next = tail;
-        		node->prev->next = node;
-        		node->next->prev = node;
+        		(node->prev)->next = node;
+        		tail->prev = node;
                       
                 }
 
 	public:
     		Cache(size_t size) 
 		{
-      			no_of_entries = new FIFOnode<K,D>[size];
+      			entries = new FIFOnode<K,D>[size];
 
       			for(int i=0; i<size; ++i) 
 				{
-        				free_entries.push_back(no_of_entries+i);
+        				free_entries.push_back(entries+i);
       				}
       			head = new FIFOnode<K,D>;
       			tail = new FIFOnode<K,D>;
@@ -61,12 +61,17 @@ class Cache {
 		{
       			delete head;
       			delete tail;
-      			delete[] no_of_entries;
+      			delete[] entries;
    		 }
+
+      size_t size() const
+    {
+      return cache_entries.size();
+    }
 
 		void insert_into_cache(K key, D data) 
 			{
-      				FIFOnode<K,D> *node = cache_enteries[key];
+      				FIFOnode<K,D> *node = cache_entries[key];
       				if(node) 
 				{ // node exists
         				//detach(node);
@@ -76,10 +81,10 @@ class Cache {
 				else 
 				{
         				if(free_entries.empty()) 
-					{// cache is full
+					{// vector is empty -> cache is full
           				//	node = tail->prev;
-          					deletenode();
-          					cache_enteries.erase(node->key);
+          					cache_entries.erase((head->next)->key);
+                    deletenode();
         				} 
 					else 	
 					{ //get a free node from _free_entries
@@ -90,7 +95,7 @@ class Cache {
         			node->data = data;
               			//cout << node->key << "\n";
               			//cout << node->data << "\n";
-        			cache_enteries[key] = node;
+        			cache_entries[key] = node;
               			//cout << _hashmap[key] << "\n";
         			addnode(node);
       				}
@@ -99,7 +104,7 @@ class Cache {
 		 D search_cache(K key) 
 			{
       				//cout << "Get" << "\n";
-             			FIFOnode<K,D> *node = cache_enteries[key];
+             			FIFOnode<K,D> *node = cache_entries[key];
               			//cout << _hashmap[key] << "\n";
       				if(node)
 		 		{ // hit

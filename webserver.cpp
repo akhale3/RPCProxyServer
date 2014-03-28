@@ -6,14 +6,17 @@ extern "C"
 {
   #include "webcurl.h"
 }
+#include "cacheTest.h"
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <string.h>
+#include <ctime>
+#include <cstdio>
 // #include "lrucache.h"
-// #include "fifocache.h"
-#include "random.h"
+#include "fifocache.h"
+// #include "random.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -35,22 +38,61 @@ public:
 	void getHtml(std::string& _return, const std::string& url)
 	{
     // Your implementation goes here
-		Cache<char *, char *> cache(10);
-
+		struct metrics * m;
+		static Cache<char *, char *> cache(m->cacheSize);
+		//cout << "SIZE = " << SIZE << "\n";
 		char * tempUrl = (char *)url.c_str();
+		std::clock_t start, stop;
 
-		if(!cache.search_cache(tempUrl))
+		if(m->cacheSize != 0)
 		{
-			cout << "Entry not in cache" << "\n";
-			char * webPage = getWebPage(tempUrl);
-			std::string body(webPage);
-			cache.insert_into_cache(tempUrl, webPage);
-			_return.assign(body);
+			if(!cache.search_cache(tempUrl))
+			{
+				cout << "Entry not in cache" << "\n";
+				// Increment miss
+				m->misses++;
+				/* Calculate tAvg */
+				// Start clock
+				start = std::clock();
+				char * webPage = getWebPage(tempUrl);
+				std::string body(webPage);
+				cache.insert_into_cache(tempUrl, webPage);
+				// Stop clock
+				stop = std::clock();
+				// Calculate tAvg
+				m->tAvg = m->tAvg + ((stop - start) / (double) CLOCKS_PER_SEC);
+				//cout << "Cache size: " << cache.size() << "\n";
+				_return.assign(body);
+			}
+			else
+			{
+				cout << "Entry in cache" << "\n";
+				m->hits++;
+				/* Calculate tAvg */
+				// Start clock
+				start = std::clock();
+				std::string body(cache.search_cache(tempUrl));
+				// Stop clock
+				stop = std::clock();
+				// Calculate tAvg
+				m->tAvg = m->tAvg + ((stop - start) / (double) CLOCKS_PER_SEC);
+				//cout << "Cache size: " << cache.size() << "\n";
+				_return.assign(body);
+			}
 		}
 		else
 		{
-			cout << "Entry in cache" << "\n";
-			std::string body(cache.search_cache(tempUrl));
+			// Increment miss */
+			m->misses++;
+			/* Calculate tAvg */
+			// Start clock
+			start = std::clock();
+			char * webPage = getWebPage(tempUrl);
+			// Stop clock
+			stop = std::clock();
+			// Calculate tAvg
+			m->tAvg = m->tAvg + ((stop - start) / (double) CLOCKS_PER_SEC);
+			std::string body(webPage);
 			_return.assign(body);
 		}
 	}

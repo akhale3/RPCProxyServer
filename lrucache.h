@@ -22,7 +22,7 @@ class Cache
     hash_map<K, LRUnode<K,D>* > cache_entries;
     vector< LRUnode<K,D>* > free_entries;
     LRUnode<K,D> *head, *tail;
-    LRUnode<K,D> *no_of_entries;
+    LRUnode<K,D> *entries;
 
     void deletenode(LRUnode<K,D>* node)
     {
@@ -42,11 +42,11 @@ class Cache
   public:
     Cache(size_t size) 
     {
-      no_of_entries = new LRUnode<K,D>[size];
+      entries = new LRUnode<K,D>[size];
 
       for(int i=0; i<size; ++i) 
       {
-        free_entries.push_back(no_of_entries+i);
+        free_entries.push_back(entries+i);
       }
       head = new LRUnode<K,D>;
       tail = new LRUnode<K,D>;
@@ -60,7 +60,12 @@ class Cache
     {
      delete head;
      delete tail;
-     delete[] no_of_entries;
+     delete[] entries;
+    }
+
+    size_t size() const
+    {
+      return cache_entries.size();
     }
 
     void insert_into_cache(K key, D data) 
@@ -78,8 +83,8 @@ class Cache
     		{
           // cache is full
           node = tail->prev;
-          deletenode(node);
           cache_entries.erase(node->key);
+          deletenode(node);
         } 
         else 	
     		{
