@@ -1,3 +1,6 @@
+
+/****************************************Header file for FIFO Cache Replacement Policy*********************************************************/
+
 #ifndef __fifocache_H
 #define __fifocache_H
 #include <iostream>
@@ -8,6 +11,7 @@ using namespace std;
 using namespace __gnu_cxx;
 
 template <class K, class D>
+//implementing doubly linked list
 struct FIFOnode 
 {
   K key;
@@ -41,6 +45,7 @@ class Cache {
                 }
 
 	public:
+		// parameterized constructor which inserts into vector array the number of free enteries.
     		Cache(size_t size) 
 		{
       			entries = new FIFOnode<K,D>[size];
@@ -56,7 +61,7 @@ class Cache {
       			tail->prev = head;
       			tail->next = NULL;
     		}
-
+		// destructor to remove  link list and vector enteries
     		~Cache() 
 		{
       			delete head;
@@ -68,54 +73,50 @@ class Cache {
     {
       return cache_entries.size();
     }
-
+		// if cache miss then insert entry into cache
 		void insert_into_cache(K key, D data) 
 			{
       				FIFOnode<K,D> *node = cache_entries[key];
       				if(node) 
-				{ // node exists
-        				//detach(node);
-        				node->data = data;
-        				//attach(node);
+				{ 
+					// node exists
+        				//do nothing
       				}	 
 				else 
 				{
         				if(free_entries.empty()) 
-					{// vector is empty -> cache is full
-          				//	node = tail->prev;
+					{
+						// vector is empty => cache is full
+						// delete entry from hash map and delete that node from the linked list.
           					cache_entries.erase((head->next)->key);
-                    deletenode();
+                   				deletenode();
         				} 
 					else 	
-					{ //get a free node from _free_entries
+					{ 
+						//get a free node from _free_entries
           					node = free_entries.back();
           					free_entries.pop_back();
        			 		}
-        			node->key = key; //put into hashmap and insert into link
+				// isert into hash map and insert the node into linked list
+        			node->key = key; 
         			node->data = data;
-              			//cout << node->key << "\n";
-              			//cout << node->data << "\n";
         			cache_entries[key] = node;
-              			//cout << _hashmap[key] << "\n";
-        			addnode(node);
+              			addnode(node);
       				}
     			}	
 
 		 D search_cache(K key) 
 			{
-      				//cout << "Get" << "\n";
+      				//search into cache to get the data
              			FIFOnode<K,D> *node = cache_entries[key];
-              			//cout << _hashmap[key] << "\n";
       				if(node)
-		 		{ // hit
-        				//detach(node);
-        				//attach(node);
-                			//cout << "Hit" << "\n";
+		 		{ 
+					//if hit return the data;
         				return node->data;
       				}
       				else
-				{ // fail to hit
-                		  //cout << T() << "\n";
+				{ 
+					// if miss return null;
         				return D();
       				}
 
