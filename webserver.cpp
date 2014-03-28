@@ -14,9 +14,11 @@ extern "C"
 #include <string.h>
 #include <ctime>
 #include <cstdio>
-// #include "lrucache.h"
-#include "fifocache.h"
+#include "lrucache.h"
+// #include "fifocache.h"
 // #include "random.h"
+
+#define cacheSize 0
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -38,19 +40,19 @@ public:
 	void getHtml(std::string& _return, const std::string& url)
 	{
     // Your implementation goes here
-		struct metrics * m;
-		static Cache<char *, char *> cache(m->cacheSize);
+		static CacheTest ct;
+		static Cache<char *, char *> cache(cacheSize);
 		//cout << "SIZE = " << SIZE << "\n";
 		char * tempUrl = (char *)url.c_str();
 		std::clock_t start, stop;
 
-		if(m->cacheSize != 0)
+		if(cacheSize != 0)
 		{
 			if(!cache.search_cache(tempUrl))
 			{
 				cout << "Entry not in cache" << "\n";
 				// Increment miss
-				m->misses++;
+				ct.updateMisses();
 				/* Calculate tAvg */
 				// Start clock
 				start = std::clock();
@@ -59,39 +61,48 @@ public:
 				cache.insert_into_cache(tempUrl, webPage);
 				// Stop clock
 				stop = std::clock();
-				// Calculate tAvg
-				m->tAvg = m->tAvg + ((stop - start) / (double) CLOCKS_PER_SEC);
-				//cout << "Cache size: " << cache.size() << "\n";
+				// Calculate tMem
+				ct.updateTMem(start, stop);
+				// Print test results
+				cout << "Cumulative hit ratio = " << ct.calcHitRatio() << "\n";
+				cout << "Cumulative average memory access time = " << ct.calcTAvg() << " secs\n\n";
 				_return.assign(body);
 			}
 			else
 			{
 				cout << "Entry in cache" << "\n";
-				m->hits++;
+				// Increment hits
+				ct.updateHits();
 				/* Calculate tAvg */
 				// Start clock
 				start = std::clock();
 				std::string body(cache.search_cache(tempUrl));
 				// Stop clock
 				stop = std::clock();
-				// Calculate tAvg
-				m->tAvg = m->tAvg + ((stop - start) / (double) CLOCKS_PER_SEC);
-				//cout << "Cache size: " << cache.size() << "\n";
+				// Calculate tCache
+				ct.updateTCache(start, stop);
+				// Print test results
+				cout << "Cumulative hit ratio = " << ct.calcHitRatio() << "\n";
+				cout << "Cumulative average memory access time = " << ct.calcTAvg() << " secs\n\n";
 				_return.assign(body);
 			}
 		}
 		else
 		{
 			// Increment miss */
-			m->misses++;
+			ct.updateMisses();
 			/* Calculate tAvg */
 			// Start clock
 			start = std::clock();
 			char * webPage = getWebPage(tempUrl);
 			// Stop clock
 			stop = std::clock();
-			// Calculate tAvg
-			m->tAvg = m->tAvg + ((stop - start) / (double) CLOCKS_PER_SEC);
+			// Calculate tMem
+			// m->tMem = m->tMem + ((stop - start) / (double) CLOCKS_PER_SEC);
+			ct.updateTMem(start, stop);
+			// Print test results
+			cout << "Cumulative hit ratio = " << ct.calcHitRatio() << "\n";
+			cout << "Cumulative average memory access time = " << ct.calcTAvg() << " secs\n\n";
 			std::string body(webPage);
 			_return.assign(body);
 		}
